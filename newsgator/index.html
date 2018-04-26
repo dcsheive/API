@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Newsgator</title>
+    <style>
+        img{
+            width: 300px;
+            margin-bottom: 30px;
+        }
+
+    </style>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+    <h1>Newsgator</h1>
+
+    <select id="source">
+        <option>Ars Technica</option>
+        <option>BBC</option>
+        <option>El Mundo</option>
+        <option>Reddit</option>
+        <option>RT</option>
+    </select>
+
+    <div id="target"></div>
+
+    <script>
+
+        var source = $("#source").val();
+        var sources = {
+            "Ars Technica": "https://newsapi.org/v2/top-headlines?sources=ars-technica&apiKey=",
+            "BBC": "https://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=",
+            "El Mundo": "https://newsapi.org/v2/top-headlines?sources=el-mundo&apiKey=",
+            "Reddit": "https://newsapi.org/v2/top-headlines?sources=reddit-r-all&apiKey=",
+            "RT": "https://newsapi.org/v2/top-headlines?sources=rt&apiKey=",
+        };
+        $("#source").change(function(){
+            source = $("#source").val();
+            getNews();
+        });
+
+        
+        function getNews(){
+            $("#target").html("");
+            var apicall = "https://newsapi.org/v2/top-headlines?sources=reddit-r-all&apiKey=";
+            var apikey = "1d7cea5143fc43838ed03210bc5ee950";
+            $.get(sources[source] + apikey, function(data){
+                console.log(data);
+                for(let article of data.articles){
+                    $("#target").append(`<a href="${article.url}" target="blank">${article.title}</a><br><img src="${article.urlToImage}"><br>`); 
+                }
+            }, "json");
+        }
+
+    </script>
+</body>
+</html>
